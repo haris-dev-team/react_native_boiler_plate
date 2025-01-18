@@ -10,8 +10,15 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.1.0",
     "react": "18.3.1",
-    "react-native": "0.76.1"
+    "react-native": "0.76.1",
+    "react-native-camera": "^4.2.1",
+    "react-native-fs": "^2.20.0",
+    "react-native-image-picker": "^7.2.3",
+    "react-native-permissions": "^5.2.3",
+    "react-native-text-recognition": "^1.0.2",
+    "tesseract.js": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -35,5 +42,6 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

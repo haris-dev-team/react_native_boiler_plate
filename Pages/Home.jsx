@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Image, StyleSheet, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { View, Text, Button, Image, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import Tesseract from 'tesseract.js';
 
-const App = () => {
+const Home = () => {
   const [imageUri, setImageUri] = useState(null);
   const [extractedText, setExtractedText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -11,7 +11,7 @@ const App = () => {
   // Request Camera Permission (For Android)
   const requestCameraPermission = async () => {
     if (Platform.OS === 'android') {
-      const cameraGranted = await PermissionsAndroid.request(
+      const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
           title: 'Camera Permission',
@@ -21,20 +21,7 @@ const App = () => {
           buttonPositive: 'OK',
         }
       );
-      
-      const storageGranted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
-      );
-
-      const writeStorageGranted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      return (
-        cameraGranted === PermissionsAndroid.RESULTS.GRANTED &&
-        storageGranted === PermissionsAndroid.RESULTS.GRANTED &&
-        writeStorageGranted === PermissionsAndroid.RESULTS.GRANTED
-      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
     }
     return true; // iOS automatically handles permissions
   };
@@ -53,17 +40,11 @@ const App = () => {
         if (response.didCancel) {
           console.log('User cancelled image picker');
         } else if (response.errorCode) {
-          Alert.alert('Image Picker Error', response.errorMessage);
+          console.error('Image Picker Error:', response.errorMessage);
         } else {
-          // Ensure that the correct URI is being set
-          const imageUri = response.assets && response.assets[0] && response.assets[0].uri;
-          if (imageUri) {
-            console.log('Image URI:', imageUri);
-            setImageUri(imageUri);
-            setExtractedText(''); // Reset extracted text
-          } else {
-            Alert.alert('Error', 'Image URI not found.');
-          }
+          console.log('Image URI:', response.assets[0].uri);
+          setImageUri(response.assets[0].uri);
+          setExtractedText(''); // Reset extracted text
         }
       }
     );
@@ -158,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Home;
